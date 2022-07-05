@@ -29,7 +29,10 @@
 #
 
 
-import gtk
+import gi
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
+
 import os
 import re
 import sys
@@ -42,19 +45,19 @@ logs = "/var/log/proxychangerlog"
 
 class Sub:
     def __init__(self, base):
-        self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        self.window = Gtk.Window(Gtk.WINDOW_TOPLEVEL)
         self.window.set_title("Authorization")
-        self.vbox = gtk.VBox()
-        self.hbox0 = gtk.HBox()
-        self.hbox1 = gtk.HBox()
-        self.hbox2 = gtk.HBox()
-        self.label1 = gtk.Label("Username")
-        self.label2 = gtk.Label("Password")
-        self.entry1 = gtk.Entry()
-        self.entry2 = gtk.Entry()
+        self.vbox = Gtk.VBox()
+        self.hbox0 = Gtk.HBox()
+        self.hbox1 = Gtk.HBox()
+        self.hbox2 = Gtk.HBox()
+        self.label1 = Gtk.Label("Username")
+        self.label2 = Gtk.Label("Password")
+        self.entry1 = Gtk.Entry()
+        self.entry2 = Gtk.Entry()
         self.entry2.set_visibility(False)
-        self.but1 = gtk.Button("Ok")
-        self.but2 = gtk.Button("Cancel")
+        self.but1 = Gtk.Button("Ok")
+        self.but2 = Gtk.Button("Cancel")
 
         self.hbox0.pack_start(self.label1)
         self.hbox0.pack_start(self.entry1)
@@ -79,9 +82,9 @@ class Sub:
         self.window.add(self.vbox)
         self.window.show()
         self.but2.connect("clicked", self.cancel, base.checkbox)
-        self.but2.connect_object("clicked", gtk.Widget.destroy, self.window)
+        self.but2.connect_object("clicked", Gtk.Widget.destroy, self.window)
         self.but1.connect("clicked", self.ok, base)
-        self.but1.connect_object("clicked", gtk.Widget.destroy, self.window)
+        self.but1.connect_object("clicked", Gtk.Widget.destroy, self.window)
 
     def ok(self, event, data=None):
         data.uname = self.entry1.get_text()
@@ -97,31 +100,31 @@ class Sub:
 class Base:
     def __init__(self):
 
-        self.checkbox = gtk.CheckButton("Authentication?")
-        self.box0 = gtk.VBox()
-        self.box1 = gtk.HBox()
-        self.box2 = gtk.VBox()
+        self.checkbox = Gtk.CheckButton("Authentication?")
+        self.box0 = Gtk.VBox()
+        self.box1 = Gtk.HBox()
+        self.box2 = Gtk.VBox()
 
-        self.box3 = gtk.HBox()
-        self.box4 = gtk.HBox()
+        self.box3 = Gtk.HBox()
+        self.box4 = Gtk.HBox()
 
-        self.entry = gtk.Entry()
+        self.entry = Gtk.Entry()
         self.box0.pack_start(self.box2)
         self.box0.pack_start(self.checkbox)
         self.box0.pack_start(self.box1)
         self.box2.pack_start(self.box3)
         self.entry.show()
-        self.button1 = gtk.Button("Set")
-        self.button2 = gtk.Button("Remove")
+        self.button1 = Gtk.Button("Set")
+        self.button2 = Gtk.Button("Remove")
         self.box1.pack_start(self.button1)
         self.box1.pack_start(self.button2)
 
-        self.label1 = gtk.Label("Host")
-        self.label2 = gtk.Label("Port")
+        self.label1 = Gtk.Label("Host")
+        self.label2 = Gtk.Label("Port")
 
         self.button1.show()
         self.button2.show()
-        self.entry2 = gtk.Entry()
+        self.entry2 = Gtk.Entry()
         self.box2.pack_start(self.box4)
 
         self.entry.connect("activate", self.act, self.entry)
@@ -135,7 +138,7 @@ class Base:
         self.box4.pack_start(self.entry2)
 
         self.entry2.show()
-        self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        self.window = Gtk.Window(Gtk.WINDOW_TOPLEVEL)
         self.window.add(self.box0)
         self.label1.show()
         self.label2.show()
@@ -153,18 +156,18 @@ class Base:
         self.opentext()
         self.button1.connect("clicked", self.set, None)
         self.button2.connect("clicked", self.remove, None)
-        self.button1.connect_object("clicked", gtk.Widget.destroy, self.window)
-        self.button2.connect_object("clicked", gtk.Widget.destroy, self.window)
+        self.button1.connect_object("clicked", Gtk.Widget.destroy, self.window)
+        self.button2.connect_object("clicked", Gtk.Widget.destroy, self.window)
         self.window.connect("destroy", self.destroy)
 
     def destroy(self, widget, data=None):
         if (self.flog != None):
             self.flog.close()
-        gtk.main_quit()
+        Gtk.main_quit()
         sys.exit(0)
 
     def act(self, widget, data=None):
-        print data.get_text()
+        print(data.get_text())
 
     def fin(self):
         self.host = self.entry.get_text()
@@ -186,7 +189,7 @@ class Base:
         else:
             filewrite2(self.host, self.port)
             self.flog.write("2 var proxy changed \n")
-        self.mbx = gtk.MessageDialog(self.window, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_CLOSE,
+        self.mbx = Gtk.MessageDialog(self.window, Gtk.DIALOG_DESTROY_WITH_PARENT, Gtk.MESSAGE_INFO, Gtk.BUTTONS_CLOSE,
                                      "SUCCESSFULLY SET")
         self.mbx.run()
         self.mbx.destroy()
@@ -199,7 +202,7 @@ class Base:
         self.flog.write("Files have been backed up in '~/.Ubuntu-Proxy/' with .backup extension \n")
         clean(filename2, filenames)
         self.flog.write("Old Proxy-Settings removed \n")
-        self.mbx = gtk.MessageDialog(self.window, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_CLOSE,
+        self.mbx = Gtk.MessageDialog(self.window, Gtk.DIALOG_DESTROY_WITH_PARENT, Gtk.MESSAGE_INFO, Gtk.BUTTONS_CLOSE,
                                      "SUCCESSFULLY REMOVED")
         self.mbx.run()
         self.mbx.destroy()
@@ -210,7 +213,7 @@ class Base:
             self.flog.write(str(datetime.now()) + "\n")
         except:
             self.flog = None
-            md = gtk.MessageDialog(self.window, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE,
+            md = Gtk.MessageDialog(self.window, Gtk.DIALOG_DESTROY_WITH_PARENT, Gtk.MESSAGE_ERROR, Gtk.BUTTONS_CLOSE,
                                    "You are not a Root user --Run This as 'sudo'")
             md.run()
             md.destroy()
@@ -346,10 +349,11 @@ def clean(file2, files, para=False):
 
             pass
 
-
+# pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY
 if __name__ == "__main__":
     if not os.geteuid() == 0:
         args = ['gksudo', sys.executable] + sys.argv + [os.environ]
         os.execlpe('gksudo', *args)
     base = Base()
-    gtk.main()
+    Gtk.main()
+
