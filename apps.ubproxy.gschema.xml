@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="apps.ubproxy" path="/apps/ubproxy/">
+    <key type="s" name="hostname">
+      <default></default>
+      <summary>Proxy hostname</summary>
+      <description>Name of proxy hostname.</description>
+    </key>
+    <key type="n" name="port">
+      <default></default>
+      <summary>Proxy port</summary>
+      <description>Proxy port</description>
+    </key>
+    <key type="s" name="username">
+      <default></default>
+      <summary>Auth username</summary>
+      <description>Proxy authorisation username</description>
+    </key>
+    <key type="s" name="password">
+      <default></default>
+      <summary>Auth password</summary>
+      <description>Proxy authorisation password</description>
+    </key>       
+  </schema>
+</schemalist>
