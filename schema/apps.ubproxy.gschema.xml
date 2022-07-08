@@ -2,22 +2,22 @@
 <schemalist>
   <schema id="apps.ubproxy" path="/apps/ubproxy/">
     <key type="s" name="hostname">
-      <default></default>
+      <default>"localhost"</default>
       <summary>Proxy hostname</summary>
       <description>Name of proxy hostname.</description>
     </key>
     <key type="n" name="port">
-      <default></default>
+      <default>3128</default>
       <summary>Proxy port</summary>
       <description>Proxy port</description>
     </key>
     <key type="s" name="username">
-      <default></default>
+      <default>"username"</default>
       <summary>Auth username</summary>
       <description>Proxy authorisation username</description>
     </key>
     <key type="s" name="password">
-      <default></default>
+      <default>"password"</default>
       <summary>Auth password</summary>
       <description>Proxy authorisation password</description>
     </key>       
