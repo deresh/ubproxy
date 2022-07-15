@@ -1,18 +1,17 @@
 
-
+from gi.repository import Gio
 
 class ProxyData:
-    SETTINGS_KEY = "apps.ubproxy"
     def __init__(self,host = '',port = '',username = '',password = ''):
         self.host = host
         self.port = port
         self.username = username
         self.password = password
 
-    def has_auth():
+    def has_auth(self):
         return self.username != ''
 
-    def from_gsettings():
-        settings = Gio.Settings.new(self.SETTINGS_KEY)
+    def from_gsettings(self, settings):
+        
         settings.get_text()
         return ProxyData()

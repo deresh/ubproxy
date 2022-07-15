@@ -97,7 +97,6 @@ class AppWindow(Gtk.ApplicationWindow):
         if (widget.get_active()):
             dialog = AuthDialog(self)
             dialog.connect('response', self.toggle_response)
-            
             response = dialog.show()
 
     def toggle_response(self, dialog, response):

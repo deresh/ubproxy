@@ -15,6 +15,7 @@ filename2 = "/etc/apt/apt.conf.d/81_proxy"
 
 
 class App(Adw.Application):
+    SETTINGS_KEY = "apps.ubproxy"
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.connect('activate', self.on_activate)
@@ -81,7 +82,8 @@ class App(Adw.Application):
 
 
     def retrieve_proxy_data(self):
-        self.data = ProxyData.from_gsettings()
+        settings = Gio.Settings.new(ProxyData.SETTINGS_KEY)
+        self.data = ProxyData.from_gsettings(settings)
 
     def backup(files):
         homefol = os.getenv('HOME')
